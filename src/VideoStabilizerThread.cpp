@@ -7,22 +7,13 @@
 #include "Settings.h"
 #include "FrameData.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 bool VideoStabilizerThread::initialize(VideoDecoder* videoDecoder, VideoStabilizer* videoStabilizer, Settings* settings)
 {
 	this->videoDecoder = videoDecoder;
 	this->videoStabilizer = videoStabilizer;
 
-	outputFile.setFileName(settings->stabilizer.passOneOutputFilePath);
-
-	if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
-	{
-		qWarning("Could not open output file");
-		return false;
-	}
-
-	outputFile.write("timeStamp;cumulativeX;cumulativeY;cumulativeAngle\n");
 	return true;
 }
 

@@ -5,7 +5,7 @@
 
 #include <QImage>
 
-namespace OrientView
+namespace VideO
 {
 	class Settings;
 

@@ -5,7 +5,7 @@
 
 #include <QElapsedTimer>
 
-namespace OrientView
+namespace VideO
 {
 	class VideoWindow;
 	class Renderer;

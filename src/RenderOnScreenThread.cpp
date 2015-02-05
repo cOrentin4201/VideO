@@ -14,7 +14,7 @@
 #include "InputHandler.h"
 #include "Settings.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 void RenderOnScreenThread::initialize(MainWindow* mainWindow, VideoWindow* videoWindow, VideoDecoder* videoDecoder, VideoDecoderThread* videoDecoderThread, VideoStabilizer* videoStabilizer, RouteManager* routeManager, Renderer* renderer, InputHandler* inputHandler)
 {

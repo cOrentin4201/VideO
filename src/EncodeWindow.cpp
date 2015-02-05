@@ -12,7 +12,7 @@
 #include "VideoEncoderThread.h"
 #include "Settings.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 EncodeWindow::EncodeWindow(QWidget *parent) : QDialog(parent), ui(new Ui::EncodeWindow)
 {

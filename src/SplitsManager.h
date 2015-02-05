@@ -7,7 +7,7 @@
 
 #include <QString>
 
-namespace OrientView
+namespace VideO
 {
 	class Settings;
 

@@ -10,7 +10,7 @@
 
 #include "RoutePoint.h"
 
-namespace OrientView
+namespace VideO
 {
 	class MapImageReader;
 	class Settings;

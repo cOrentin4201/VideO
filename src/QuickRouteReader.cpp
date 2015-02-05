@@ -9,7 +9,7 @@
 #include "MapImageReader.h"
 #include "Settings.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 bool QuickRouteReader::initialize(MapImageReader* mapImageReader, Settings* settings)
 {

@@ -5,7 +5,7 @@
 
 #include <QString>
 
-namespace OrientView
+namespace VideO
 {
 	struct Mp4Handle;
 

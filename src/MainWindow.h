@@ -11,7 +11,7 @@ namespace Ui
 	class MainWindow;
 }
 
-namespace OrientView
+namespace VideO
 {
 	class Settings;
 	class VideoWindow;
@@ -46,7 +46,6 @@ namespace OrientView
 		void writeSettingsToLocal();
 		void readSettingsFromIniFile(const QString& fileName);
 		void writeSettingsToIniFile(const QString& fileName);
-		void addLogMessage(const QString& timeString, const QString& typeString, const QString& messageString);
 
 	private slots:
 
@@ -55,7 +54,6 @@ namespace OrientView
 		void on_actionDefaultSettings_triggered();
 		void on_actionPlayVideo_triggered();
 		void on_actionEncodeVideo_triggered();
-		void on_actionHelp_triggered();
 		void on_actionExit_triggered();
 
 		void on_pushButtonBrowseMapImageFile_clicked();
@@ -70,13 +68,7 @@ namespace OrientView
 		void on_pushButtonPickRouteRunnerBorderColor_clicked();
 		void on_pushButtonPickRouteControlBorderColor_clicked();
 		void on_pushButtonPickVideoBackgroundColor_clicked();
-
-		void on_pushButtonVideoStabilizerBrowseInputDataFile_clicked();
-		void on_pushButtonVideoStabilizerBrowsePassOneOutputFile_clicked();
-		void on_pushButtonVideoStabilizerBrowsePassTwoInputFile_clicked();
-		void on_pushButtonVideoStabilizerBrowsePassTwoOutputFile_clicked();
-		void on_pushButtonVideoStabilizerPassOneRun_clicked();
-		void on_pushButtonVideoStabilizerPassTwoRun_clicked();
+				
 
 	private:
 
@@ -85,7 +77,6 @@ namespace OrientView
 		void stabilizeVideoFinished();
 
 		Ui::MainWindow* ui = nullptr;
-		QStandardItemModel* logDataModel = nullptr;
 		Settings* settings = nullptr;
 		VideoWindow* videoWindow = nullptr;
 		EncodeWindow* encodeWindow = nullptr;

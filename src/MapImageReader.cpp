@@ -4,7 +4,7 @@
 #include "MapImageReader.h"
 #include "Settings.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 bool MapImageReader::initialize(Settings* settings)
 {

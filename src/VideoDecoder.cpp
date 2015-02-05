@@ -13,7 +13,7 @@ extern "C"
 #include "Settings.h"
 #include "FrameData.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 namespace
 {

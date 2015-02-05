@@ -11,7 +11,7 @@ namespace Ui
 	class StabilizeWindow;
 }
 
-namespace OrientView
+namespace VideO
 {
 	class VideoDecoder;
 	class VideoStabilizerThread;

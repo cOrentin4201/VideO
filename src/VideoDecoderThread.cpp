@@ -4,7 +4,7 @@
 #include "VideoDecoderThread.h"
 #include "VideoDecoder.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 void VideoDecoderThread::initialize(VideoDecoder* videoDecoder)
 {

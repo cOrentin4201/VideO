@@ -3,7 +3,7 @@
 
 #include "MovingAverage.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 void MovingAverage::setAlpha(double value)
 {

@@ -13,11 +13,10 @@
 
 #define sign(a) (((a) < 0) ? -1 : ((a) > 0))
 
-using namespace OrientView;
+using namespace VideO;
 
 bool VideoStabilizer::initialize(Settings* settings, bool isPreprocessing)
 {
-	mode = settings->stabilizer.mode;
 	isEnabled = settings->stabilizer.enabled;
 	cumulativeXAverage.setAlpha(settings->stabilizer.averagingFactor);
 	cumulativeYAverage.setAlpha(settings->stabilizer.averagingFactor);
@@ -27,12 +26,6 @@ bool VideoStabilizer::initialize(Settings* settings, bool isPreprocessing)
 	maxAngle = settings->stabilizer.maxAngle;
 
 	reset();
-
-	if (!isPreprocessing && mode == VideoStabilizerMode::Preprocessed)
-	{
-		if (!readNormalizedFramePositions(settings->stabilizer.inputDataFilePath))
-			return false;
-	}
 
 	return true;
 }
@@ -155,7 +148,7 @@ FramePosition VideoStabilizer::searchNormalizedFramePosition(const FrameData& fr
 {
 	FramePosition result;
 
-	auto comparator = [](const OrientView::FramePosition& fp, const int64_t timeStamp) { return fp.timeStamp < timeStamp; };
+	auto comparator = [](const VideO::FramePosition& fp, const int64_t timeStamp) { return fp.timeStamp < timeStamp; };
 	auto searchResult = std::lower_bound(normalizedFramePositions.begin(), normalizedFramePositions.end(), frameDataGrayscale.timeStamp, comparator);
 
 	if (searchResult != normalizedFramePositions.end() && (*searchResult).timeStamp >= frameDataGrayscale.timeStamp)

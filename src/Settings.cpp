@@ -1,5 +1,3 @@
-// Copyright © 2014 Mikko Ronkainen <firstname@mikkoronkainen.com>
-// License: GPLv3, see the LICENSE file.
 
 #include <QFile>
 #include <QSettings>
@@ -7,7 +5,7 @@
 #include "Settings.h"
 #include "ui_MainWindow.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 void Settings::readFromQSettings(QSettings* settings)
 {
@@ -74,9 +72,6 @@ void Settings::readFromQSettings(QSettings* settings)
 	video.enableVerboseLogging = settings->value("video/enableVerboseLogging", defaultSettings.video.enableVerboseLogging).toBool();
 	video.seekToAnyFrame = settings->value("video/seekToAnyFrame", defaultSettings.video.seekToAnyFrame).toBool();
 
-	splits.type = (SplitTimeType)settings->value("splits/type", defaultSettings.splits.type).toInt();
-	splits.splitTimes = settings->value("splits/splitTimes", defaultSettings.splits.splitTimes).toString();
-
 	window.width = settings->value("window/width", defaultSettings.window.width).toInt();
 	window.height = settings->value("window/height", defaultSettings.window.height).toInt();
 	window.multisamples = settings->value("window/multisamples", defaultSettings.window.multisamples).toInt();
@@ -88,18 +83,12 @@ void Settings::readFromQSettings(QSettings* settings)
 	renderer.infoPanelFontSize = settings->value("renderer/infoPanelFontSize", defaultSettings.renderer.infoPanelFontSize).toInt();
 
 	stabilizer.enabled = settings->value("stabilizer/enabled", defaultSettings.stabilizer.enabled).toBool();
-	stabilizer.mode = (VideoStabilizerMode)settings->value("stabilizer/mode", defaultSettings.stabilizer.mode).toInt();
-	stabilizer.inputDataFilePath = settings->value("stabilizer/inputDataFilePath", defaultSettings.stabilizer.inputDataFilePath).toString();
 	stabilizer.averagingFactor = settings->value("stabilizer/averagingFactor", defaultSettings.stabilizer.averagingFactor).toDouble();
 	stabilizer.dampingFactor = settings->value("stabilizer/dampingFactor", defaultSettings.stabilizer.dampingFactor).toDouble();
 	stabilizer.maxDisplacementFactor = settings->value("stabilizer/maxDisplacementFactor", defaultSettings.stabilizer.maxDisplacementFactor).toDouble();
 	stabilizer.maxAngle = settings->value("stabilizer/maxAngle", defaultSettings.stabilizer.maxAngle).toDouble();
 	stabilizer.frameSizeDivisor = settings->value("stabilizer/frameSizeDivisor", defaultSettings.stabilizer.frameSizeDivisor).toInt();
-	stabilizer.passOneOutputFilePath = settings->value("stabilizer/passOneOutputFilePath", defaultSettings.stabilizer.passOneOutputFilePath).toString();
-	stabilizer.passTwoInputFilePath = settings->value("stabilizer/passTwoInputFilePath", defaultSettings.stabilizer.passTwoInputFilePath).toString();
-	stabilizer.passTwoOutputFilePath = settings->value("stabilizer/passTwoOutputFilePath", defaultSettings.stabilizer.passTwoOutputFilePath).toString();
-	stabilizer.smoothingRadius = settings->value("stabilizer/smoothingRadius", defaultSettings.stabilizer.smoothingRadius).toInt();
-
+	
 	encoder.outputVideoFilePath = settings->value("encoder/outputVideoFilePath", defaultSettings.encoder.outputVideoFilePath).toString();
 	encoder.preset = settings->value("encoder/preset", defaultSettings.encoder.preset).toString();
 	encoder.profile = settings->value("encoder/profile", defaultSettings.encoder.profile).toString();
@@ -190,9 +179,6 @@ void Settings::writeToQSettings(QSettings* settings)
 	settings->setValue("video/enableVerboseLogging", video.enableVerboseLogging);
 	settings->setValue("video/seekToAnyFrame", video.seekToAnyFrame);
 
-	settings->setValue("splits/type", splits.type);
-	settings->setValue("splits/splitTimes", splits.splitTimes);
-
 	settings->setValue("window/width", window.width);
 	settings->setValue("window/height", window.height);
 	settings->setValue("window/multisamples", window.multisamples);
@@ -204,18 +190,12 @@ void Settings::writeToQSettings(QSettings* settings)
 	settings->setValue("renderer/infoPanelFontSize", renderer.infoPanelFontSize);
 
 	settings->setValue("stabilizer/enabled", stabilizer.enabled);
-	settings->setValue("stabilizer/mode", stabilizer.mode);
-	settings->setValue("stabilizer/inputDataFilePath", stabilizer.inputDataFilePath);
 	settings->setValue("stabilizer/averagingFactor", stabilizer.averagingFactor);
 	settings->setValue("stabilizer/dampingFactor", stabilizer.dampingFactor);
 	settings->setValue("stabilizer/maxDisplacementFactor", stabilizer.maxDisplacementFactor);
 	settings->setValue("stabilizer/maxAngle", stabilizer.maxAngle);
 	settings->setValue("stabilizer/frameSizeDivisor", stabilizer.frameSizeDivisor);
-	settings->setValue("stabilizer/passOneOutputFilePath", stabilizer.passOneOutputFilePath);
-	settings->setValue("stabilizer/passTwoInputFilePath", stabilizer.passTwoInputFilePath);
-	settings->setValue("stabilizer/passTwoOutputFilePath", stabilizer.passTwoOutputFilePath);
-	settings->setValue("stabilizer/smoothingRadius", stabilizer.smoothingRadius);
-
+	
 	settings->setValue("encoder/outputVideoFilePath", encoder.outputVideoFilePath);
 	settings->setValue("encoder/preset", encoder.preset);
 	settings->setValue("encoder/profile", encoder.profile);
@@ -246,10 +226,6 @@ void Settings::writeToQSettings(QSettings* settings)
 void Settings::readFromUI(Ui::MainWindow* ui)
 {
 	map.imageFilePath = ui->lineEditMapImageFile->text();
-	map.relativeWidth = ui->doubleSpinBoxMapRelativeWidth->value();
-	map.scale = ui->doubleSpinBoxMapScale->value();
-	map.headerCrop = ui->spinBoxMapHeaderCrop->value();
-	map.rescaleShader = ui->comboBoxMapRescaleShader->currentText();
 
 	route.quickRouteJpegFilePath = ui->lineEditQuickRouteJpegFile->text();
 	route.routeRenderMode = (RouteRenderMode)ui->comboBoxRouteRenderMode->currentIndex();
@@ -283,14 +259,6 @@ void Settings::readFromUI(Ui::MainWindow* ui)
 	video.rescaleShader = ui->comboBoxVideoRescaleShader->currentText();
 	video.enableClipping = ui->checkBoxVideoEnableClipping->isChecked();
 	video.enableClearing = ui->checkBoxVideoEnableClearing->isChecked();
-	video.frameCountDivisor = ui->spinBoxVideoDecoderFrameCountDivisor->value();
-	video.frameDurationDivisor = ui->spinBoxVideoDecoderFrameDurationDivisor->value();
-	video.frameSizeDivisor = ui->spinBoxVideoDecoderFrameSizeDivisor->value();
-	video.enableVerboseLogging = ui->checkBoxVideoDecoderEnableVerboseLogging->isChecked();
-	video.seekToAnyFrame = ui->checkBoxVideoDecoderSeekToAnyFrame->isChecked();
-
-	splits.type = (SplitTimeType)ui->comboBoxSplitTimeType->currentIndex();
-	splits.splitTimes = ui->lineEditSplitTimes->text();
 
 	window.width = ui->spinBoxWindowWidth->value();
 	window.height = ui->spinBoxWindowHeight->value();
@@ -303,17 +271,12 @@ void Settings::readFromUI(Ui::MainWindow* ui)
 	renderer.infoPanelFontSize = ui->spinBoxRendererInfoPanelFontSize->value();
 
 	stabilizer.enabled = ui->checkBoxVideoStabilizerEnabled->isChecked();
-	stabilizer.mode = (VideoStabilizerMode)ui->comboBoxVideoStabilizerMode->currentIndex();
-	stabilizer.inputDataFilePath = ui->lineEditVideoStabilizerInputDataFile->text();
+
 	stabilizer.averagingFactor = ui->doubleSpinBoxVideoStabilizerAveragingFactor->value();
 	stabilizer.dampingFactor = ui->doubleSpinBoxVideoStabilizerDampingFactor->value();
 	stabilizer.maxDisplacementFactor = ui->doubleSpinBoxVideoStabilizerMaxDisplacementFactor->value();
 	stabilizer.maxAngle = ui->doubleSpinBoxVideoStabilizerMaxAngle->value();
 	stabilizer.frameSizeDivisor = ui->spinBoxVideoStabilizerFrameSizeDivisor->value();
-	stabilizer.passOneOutputFilePath = ui->lineEditVideoStabilizerPassOneOutputFile->text();
-	stabilizer.passTwoInputFilePath = ui->lineEditVideoStabilizerPassTwoInputFile->text();
-	stabilizer.passTwoOutputFilePath = ui->lineEditVideoStabilizerPassTwoOutputFile->text();
-	stabilizer.smoothingRadius = ui->spinBoxVideoStabilizerSmoothingRadius->value();
 
 	encoder.outputVideoFilePath = ui->lineEditOutputVideoFile->text();
 	encoder.preset = ui->comboBoxVideoEncoderPreset->currentText();
@@ -324,11 +287,6 @@ void Settings::readFromUI(Ui::MainWindow* ui)
 void Settings::writeToUI(Ui::MainWindow* ui)
 {
 	ui->lineEditMapImageFile->setText(map.imageFilePath);
-	ui->doubleSpinBoxMapRelativeWidth->setValue(map.relativeWidth);
-	ui->doubleSpinBoxMapScale->setValue(map.scale);
-	ui->spinBoxMapHeaderCrop->setValue(map.headerCrop);
-	ui->labelMapBackgroundColor->setStyleSheet(QString("background-color: rgb(%1, %2, %3, %4);").arg(QString::number(map.backgroundColor.red()), QString::number(map.backgroundColor.green()), QString::number(map.backgroundColor.blue()), QString::number(map.backgroundColor.alpha())));
-	ui->comboBoxMapRescaleShader->setCurrentText(map.rescaleShader);
 
 	ui->lineEditQuickRouteJpegFile->setText(route.quickRouteJpegFilePath);
 	ui->labelRouteDiscreetColor->setStyleSheet(QString("background-color: rgb(%1, %2, %3, %4);").arg(QString::number(route.discreetColor.red()), QString::number(route.discreetColor.green()), QString::number(route.discreetColor.blue()), QString::number(route.discreetColor.alpha())));
@@ -368,14 +326,6 @@ void Settings::writeToUI(Ui::MainWindow* ui)
 	ui->comboBoxVideoRescaleShader->setCurrentText(video.rescaleShader);
 	ui->checkBoxVideoEnableClipping->setChecked(video.enableClipping);
 	ui->checkBoxVideoEnableClearing->setChecked(video.enableClearing);
-	ui->spinBoxVideoDecoderFrameCountDivisor->setValue(video.frameCountDivisor);
-	ui->spinBoxVideoDecoderFrameDurationDivisor->setValue(video.frameDurationDivisor);
-	ui->spinBoxVideoDecoderFrameSizeDivisor->setValue(video.frameSizeDivisor);
-	ui->checkBoxVideoDecoderEnableVerboseLogging->setChecked(video.enableVerboseLogging);
-	ui->checkBoxVideoDecoderSeekToAnyFrame->setChecked(video.seekToAnyFrame);
-
-	ui->comboBoxSplitTimeType->setCurrentIndex(splits.type);
-	ui->lineEditSplitTimes->setText(splits.splitTimes);
 
 	ui->spinBoxWindowWidth->setValue(window.width);
 	ui->spinBoxWindowHeight->setValue(window.height);
@@ -388,17 +338,11 @@ void Settings::writeToUI(Ui::MainWindow* ui)
 	ui->spinBoxRendererInfoPanelFontSize->setValue(renderer.infoPanelFontSize);
 
 	ui->checkBoxVideoStabilizerEnabled->setChecked(stabilizer.enabled);
-	ui->comboBoxVideoStabilizerMode->setCurrentIndex(stabilizer.mode);
-	ui->lineEditVideoStabilizerInputDataFile->setText(stabilizer.inputDataFilePath);
 	ui->doubleSpinBoxVideoStabilizerAveragingFactor->setValue(stabilizer.averagingFactor);
 	ui->doubleSpinBoxVideoStabilizerDampingFactor->setValue(stabilizer.dampingFactor);
 	ui->doubleSpinBoxVideoStabilizerMaxDisplacementFactor->setValue(stabilizer.maxDisplacementFactor);
 	ui->doubleSpinBoxVideoStabilizerMaxAngle->setValue(stabilizer.maxAngle);
 	ui->spinBoxVideoStabilizerFrameSizeDivisor->setValue(stabilizer.frameSizeDivisor);
-	ui->lineEditVideoStabilizerPassOneOutputFile->setText(stabilizer.passOneOutputFilePath);
-	ui->lineEditVideoStabilizerPassTwoInputFile->setText(stabilizer.passTwoInputFilePath);
-	ui->lineEditVideoStabilizerPassTwoOutputFile->setText(stabilizer.passTwoOutputFilePath);
-	ui->spinBoxVideoStabilizerSmoothingRadius->setValue(stabilizer.smoothingRadius);
 
 	ui->lineEditOutputVideoFile->setText(encoder.outputVideoFilePath);
 	ui->comboBoxVideoEncoderPreset->setCurrentText(encoder.preset);

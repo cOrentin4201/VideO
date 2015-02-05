@@ -17,7 +17,7 @@ extern "C"
 #define LOG_IF_ERR(cond, ...) if(cond) { qWarning(__VA_ARGS__); }
 #define RETURN_IF_ERR(cond, ...) if(cond) { qWarning(__VA_ARGS__); return false; }
 
-namespace OrientView
+namespace VideO
 {
 	struct Mp4Handle
 	{
@@ -38,7 +38,7 @@ namespace OrientView
 	};
 }
 
-using namespace OrientView;
+using namespace VideO;
 
 bool Mp4File::open(const QString& fileName)
 {

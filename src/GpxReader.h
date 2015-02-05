@@ -6,7 +6,7 @@
 #include <QString>
 #include <QDateTime>
 
-namespace OrientView
+namespace VideO
 {
 	struct TrackPoint
 	{

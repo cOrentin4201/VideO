@@ -9,9 +9,9 @@
 #include "Renderer.h"
 #include "Settings.h"
 
-using namespace OrientView;
+using namespace VideO;
 
-bool RouteManager::initialize(QuickRouteReader* quickRouteReader, SplitsManager* splitsManager, Renderer* renderer, Settings* settings)
+bool RouteManager::initialize(QuickRouteReader* quickRouteReader, Renderer* renderer, Settings* settings)
 {
 	this->renderer = renderer;
 
@@ -34,7 +34,6 @@ bool RouteManager::initialize(QuickRouteReader* quickRouteReader, SplitsManager*
 	Route& defaultRoute = routes.at(0);
 
 	defaultRoute.routePoints = quickRouteReader->getRoutePoints();
-	defaultRoute.runnerInfo = splitsManager->getDefaultRunnerInfo();
 	defaultRoute.discreetColor = settings->route.discreetColor;
 	defaultRoute.highlightColor = settings->route.highlightColor;
 	defaultRoute.routeRenderMode = settings->route.routeRenderMode;
@@ -67,12 +66,7 @@ bool RouteManager::initialize(QuickRouteReader* quickRouteReader, SplitsManager*
 
 	update(0.0, 0.0);
 
-	if (viewMode == ViewMode::FixedSplit && currentSplitTransformationIndex == -1 && defaultRoute.splitTransformations.size() > 0)
-	{
-		currentSt = defaultRoute.splitTransformations.at(0);
-		currentSplitTransformationIndex = 0;
-	}
-
+	
 	return true;
 }
 

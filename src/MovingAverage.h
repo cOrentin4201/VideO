@@ -3,7 +3,7 @@
 
 #pragma once
 
-namespace OrientView
+namespace VideO
 {
 	// Calculate exponential moving average.
 	class MovingAverage

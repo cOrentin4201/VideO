@@ -8,7 +8,7 @@
 
 #include "FrameData.h"
 
-namespace OrientView
+namespace VideO
 {
 	class MainWindow;
 	class EncodeWindow;

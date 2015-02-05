@@ -14,7 +14,7 @@
 #include "VideoEncoder.h"
 #include "FrameData.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 void RenderOffScreenThread::initialize(MainWindow* mainWindow, EncodeWindow* encodeWindow, VideoDecoder* videoDecoder, VideoDecoderThread* videoDecoderThread, VideoStabilizer* videoStabilizer, RouteManager* routeManager, Renderer* renderer, VideoEncoder* videoEncoder)
 {

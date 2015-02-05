@@ -21,7 +21,6 @@
 #include "MapImageReader.h"
 #include "VideoStabilizer.h"
 #include "InputHandler.h"
-#include "SplitsManager.h"
 #include "RouteManager.h"
 #include "Renderer.h"
 #include "VideoDecoderThread.h"
@@ -30,36 +29,20 @@
 #include "VideoEncoderThread.h"
 #include "VideoStabilizerThread.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
 	resize(700, 500);
 
-	logDataModel = new QStandardItemModel(0, 3);
 	settings = new Settings();
-
-	QStringList logLabels;
-	logLabels.append("Time");
-	logLabels.append("Level");
-	logLabels.append("Message");
-	logDataModel->setHorizontalHeaderLabels(logLabels);
-	ui->treeViewLog->setModel(logDataModel);
-
-	ui->tabWidgetMain->setCurrentIndex(0);
-
+	
 	ui->comboBoxRouteManagerViewMode->view()->setMinimumSize(200, 0);
 }
 
 MainWindow::~MainWindow()
 {
-	if (logDataModel != nullptr)
-	{
-		delete logDataModel;
-		logDataModel = nullptr;
-	}
-
 	if (settings != nullptr)
 	{
 		delete settings;
@@ -101,24 +84,13 @@ void MainWindow::writeSettingsToIniFile(const QString& fileName)
 	settings->writeToQSettings(&iniFileSettings);
 }
 
-void MainWindow::addLogMessage(const QString& timeString, const QString& typeString, const QString& messageString)
-{
-	QList<QStandardItem*> newRow;
-	QStandardItem* firstColumn = new QStandardItem(timeString);
-
-	newRow.append(firstColumn);
-	newRow.append(new QStandardItem(typeString));
-	newRow.append(new QStandardItem(messageString));
-
-	logDataModel->appendRow(newRow);
-}
 
 void MainWindow::on_actionLoadSettings_triggered()
 {
 	QFileDialog fileDialog(this);
 	fileDialog.setFileMode(QFileDialog::ExistingFile);
-	fileDialog.setWindowTitle(tr("Load OrientView settings"));
-	fileDialog.setNameFilter(tr("OrientView settings files (*.orv)"));
+	fileDialog.setWindowTitle(tr("Load VideO settings"));
+	fileDialog.setNameFilter(tr("VideO settings files (*.vdo)"));
 
 	if (fileDialog.exec())
 		readSettingsFromIniFile(fileDialog.selectedFiles().at(0));
@@ -128,9 +100,9 @@ void MainWindow::on_actionSaveSettings_triggered()
 {
 	QFileDialog fileDialog(this);
 	fileDialog.setFileMode(QFileDialog::AnyFile);
-	fileDialog.setWindowTitle(tr("Save OrientView settings"));
-	fileDialog.setNameFilter(tr("OrientView settings files (*.orv)"));
-	fileDialog.setDefaultSuffix(tr("orv"));
+	fileDialog.setWindowTitle(tr("Save VideO settings"));
+	fileDialog.setNameFilter(tr("VideO settings files (*.vdo)"));
+	fileDialog.setDefaultSuffix(tr("vdo"));
 	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
 
 	if (fileDialog.exec())
@@ -139,7 +111,7 @@ void MainWindow::on_actionSaveSettings_triggered()
 
 void MainWindow::on_actionDefaultSettings_triggered()
 {
-	if (QMessageBox::warning(this, "OrientView - Warning", QString("Do you really want reset all settings to defaults?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+	if (QMessageBox::warning(this, "VideO - Warning", QString("Do you really want reset all settings to defaults?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
 	{
 		if (settings != nullptr)
 		{
@@ -164,7 +136,7 @@ void MainWindow::on_actionPlayVideo_triggered()
 
 		if (!videoDecoder->initialize(settings))
 		{
-			if (QMessageBox::warning(this, "OrientView - Warning", QString("Could not open the video file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+			if (QMessageBox::warning(this, "VideO - Warning", QString("Could not open the video file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
 				throw std::runtime_error("Could not initialize video decoder");
 		}
 
@@ -172,7 +144,7 @@ void MainWindow::on_actionPlayVideo_triggered()
 
 		if (!mapImageReader->initialize(settings))
 		{
-			if (QMessageBox::warning(this, "OrientView - Warning", QString("Could not read the map image file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+			if (QMessageBox::warning(this, "VideO - Warning", QString("Could not read the map image file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
 				throw std::runtime_error("Could not initialize map image reader");
 		}
 
@@ -180,7 +152,7 @@ void MainWindow::on_actionPlayVideo_triggered()
 
 		if (!quickRouteReader->initialize(mapImageReader, settings))
 		{
-			if (QMessageBox::warning(this, "OrientView - Warning", QString("Could not read the QuickRoute file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+			if (QMessageBox::warning(this, "VideO - Warning", QString("Could not read the QuickRoute file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
 				throw std::runtime_error("Could not initialize QuickRoute reader");
 		}
 	}
@@ -200,7 +172,6 @@ void MainWindow::on_actionPlayVideo_triggered()
 		renderer = new Renderer();
 		videoStabilizer = new VideoStabilizer();
 		inputHandler = new InputHandler();
-		splitsManager = new SplitsManager();
 		routeManager = new RouteManager();
 		videoDecoderThread = new VideoDecoderThread();
 		renderOnScreenThread = new RenderOnScreenThread();
@@ -217,9 +188,8 @@ void MainWindow::on_actionPlayVideo_triggered()
 			throw std::runtime_error("Could not initialize video stabilizer");
 
 		inputHandler->initialize(videoWindow, renderer, videoDecoder, videoDecoderThread, videoStabilizer, routeManager, renderOnScreenThread, settings);
-		splitsManager->initialize(settings);
 
-		if (!routeManager->initialize(quickRouteReader, splitsManager, renderer, settings))
+		if (!routeManager->initialize(quickRouteReader, renderer, settings))
 			throw std::runtime_error("Could not initialize route manager");
 
 		videoDecoderThread->initialize(videoDecoder);
@@ -243,7 +213,7 @@ void MainWindow::on_actionPlayVideo_triggered()
 		videoWindow->close();
 		playVideoFinished();
 
-		QMessageBox::critical(this, "OrientView - Error", QString("%1.\n\nCheck the application log for details.").arg(ex.what()), QMessageBox::Ok);
+		//QMessageBox::critical(this, "OrientView - Error", QString("%1.\n\nCheck the application log for details.").arg(ex.what()), QMessageBox::Ok);
 	}
 
 	this->setCursor(Qt::ArrowCursor);
@@ -276,12 +246,7 @@ void MainWindow::playVideoFinished()
 		routeManager = nullptr;
 	}
 
-	if (splitsManager != nullptr)
-	{
-		delete splitsManager;
-		splitsManager = nullptr;
-	}
-
+	
 	if (inputHandler != nullptr)
 	{
 		delete inputHandler;
@@ -340,7 +305,7 @@ void MainWindow::on_actionEncodeVideo_triggered()
 
 		if (!videoDecoder->initialize(settings))
 		{
-			if (QMessageBox::warning(this, "OrientView - Warning", QString("Could not open the video file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+			if (QMessageBox::warning(this, "VideO - Warning", QString("Could not open the video file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
 				throw std::runtime_error("Could not initialize video decoder");
 		}
 
@@ -348,7 +313,7 @@ void MainWindow::on_actionEncodeVideo_triggered()
 
 		if (!mapImageReader->initialize(settings))
 		{
-			if (QMessageBox::warning(this, "OrientView - Warning", QString("Could not read the map image file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+			if (QMessageBox::warning(this, "VideO - Warning", QString("Could not read the map image file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
 				throw std::runtime_error("Could not initialize map image reader");
 		}
 
@@ -356,7 +321,7 @@ void MainWindow::on_actionEncodeVideo_triggered()
 
 		if (!quickRouteReader->initialize(mapImageReader, settings))
 		{
-			if (QMessageBox::warning(this, "OrientView - Warning", QString("Could not read the QuickRoute file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+			if (QMessageBox::warning(this, "VideO - Warning", QString("Could not read the QuickRoute file.\n\nDo you want to continue anyway?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
 				throw std::runtime_error("Could not initialize QuickRoute reader");
 		}
 	}
@@ -377,7 +342,6 @@ void MainWindow::on_actionEncodeVideo_triggered()
 		renderer = new Renderer();
 		videoStabilizer = new VideoStabilizer();
 		inputHandler = new InputHandler();
-		splitsManager = new SplitsManager();
 		routeManager = new RouteManager();
 		videoDecoderThread = new VideoDecoderThread();
 		renderOffScreenThread = new RenderOffScreenThread();
@@ -395,9 +359,8 @@ void MainWindow::on_actionEncodeVideo_triggered()
 		if (!videoStabilizer->initialize(settings, false))
 			throw std::runtime_error("Could not initialize video stabilizer");
 
-		splitsManager->initialize(settings);
-
-		if (!routeManager->initialize(quickRouteReader, splitsManager, renderer, settings))
+		
+		if (!routeManager->initialize(quickRouteReader, renderer, settings))
 			throw std::runtime_error("Could not initialize route manager");
 
 		videoDecoderThread->initialize(videoDecoder);
@@ -425,7 +388,7 @@ void MainWindow::on_actionEncodeVideo_triggered()
 		encodeWindow->close();
 		encodeVideoFinished();
 
-		QMessageBox::critical(this, "OrientView - Error", QString("%1.\n\nCheck the application log for details.").arg(ex.what()), QMessageBox::Ok);
+		//QMessageBox::critical(this, "OrientView - Error", QString("%1.\n\nCheck the application log for details.").arg(ex.what()), QMessageBox::Ok);
 	}
 
 	this->setCursor(Qt::ArrowCursor);
@@ -466,12 +429,7 @@ void MainWindow::encodeVideoFinished()
 		routeManager = nullptr;
 	}
 
-	if (splitsManager != nullptr)
-	{
-		delete splitsManager;
-		splitsManager = nullptr;
-	}
-
+	
 	if (inputHandler != nullptr)
 	{
 		delete inputHandler;
@@ -521,13 +479,6 @@ void MainWindow::encodeVideoFinished()
 	}
 }
 
-void MainWindow::on_actionHelp_triggered()
-{
-	QFileInfo fileInfo("readme.html");
-
-	if(!QDesktopServices::openUrl(QUrl(QString("file:///%1").arg(fileInfo.absoluteFilePath()))))
-		QDesktopServices::openUrl(QUrl(QString("https://github.com/mikoro/orientview")));
-}
 
 void MainWindow::on_actionExit_triggered()
 {
@@ -657,99 +608,6 @@ void MainWindow::on_pushButtonPickVideoBackgroundColor_clicked()
 	settings->writeToUI(ui);
 }
 
-void MainWindow::on_pushButtonVideoStabilizerBrowseInputDataFile_clicked()
-{
-	QFileDialog fileDialog(this);
-	fileDialog.setFileMode(QFileDialog::ExistingFile);
-	fileDialog.setWindowTitle(tr("Select video stabilizer data file"));
-	fileDialog.setNameFilter(tr("CSV files (*.csv);;All files (*.*)"));
-
-	if (fileDialog.exec())
-		ui->lineEditVideoStabilizerInputDataFile->setText(fileDialog.selectedFiles().at(0));
-}
-
-void MainWindow::on_pushButtonVideoStabilizerBrowsePassOneOutputFile_clicked()
-{
-	QFileDialog fileDialog(this);
-	fileDialog.setFileMode(QFileDialog::AnyFile);
-	fileDialog.setWindowTitle(tr("Select pass one output file"));
-	fileDialog.setNameFilter(tr("CSV files (*.csv)"));
-	fileDialog.setDefaultSuffix(tr("csv"));
-	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-
-	if (fileDialog.exec())
-		ui->lineEditVideoStabilizerPassOneOutputFile->setText(fileDialog.selectedFiles().at(0));
-}
-
-void MainWindow::on_pushButtonVideoStabilizerBrowsePassTwoInputFile_clicked()
-{
-	QFileDialog fileDialog(this);
-	fileDialog.setFileMode(QFileDialog::ExistingFile);
-	fileDialog.setWindowTitle(tr("Select pass two input file"));
-	fileDialog.setNameFilter(tr("CSV files (*.csv);;All files (*.*)"));
-
-	if (fileDialog.exec())
-		ui->lineEditVideoStabilizerPassTwoInputFile->setText(fileDialog.selectedFiles().at(0));
-}
-
-void MainWindow::on_pushButtonVideoStabilizerBrowsePassTwoOutputFile_clicked()
-{
-	QFileDialog fileDialog(this);
-	fileDialog.setFileMode(QFileDialog::AnyFile);
-	fileDialog.setWindowTitle(tr("Select pass two output file"));
-	fileDialog.setNameFilter(tr("CSV files (*.csv)"));
-	fileDialog.setDefaultSuffix(tr("csv"));
-	fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-
-	if (fileDialog.exec())
-		ui->lineEditVideoStabilizerPassTwoOutputFile->setText(fileDialog.selectedFiles().at(0));
-}
-
-void MainWindow::on_pushButtonVideoStabilizerPassOneRun_clicked()
-{
-	this->setCursor(Qt::WaitCursor);
-
-	settings->readFromUI(ui);
-
-	try
-	{
-		stabilizeWindow = new StabilizeWindow(this);
-		videoDecoder = new VideoDecoder();
-		videoStabilizer = new VideoStabilizer();
-		videoStabilizerThread = new VideoStabilizerThread();
-
-		if (!videoDecoder->initialize(settings))
-			throw std::runtime_error("Could not initialize video decoder");
-
-		if (!videoStabilizerThread->initialize(videoDecoder, videoStabilizer, settings))
-			throw std::runtime_error("Could not initialize video stabilizer thread");
-
-		if (!videoStabilizer->initialize(settings, true))
-			throw std::runtime_error("Could not initialize video stabilizer");
-
-		stabilizeWindow->initialize(videoDecoder, videoStabilizerThread);
-
-		connect(stabilizeWindow, &StabilizeWindow::closing, this, &MainWindow::stabilizeVideoFinished);
-		connect(videoStabilizerThread, &VideoStabilizerThread::frameProcessed, stabilizeWindow, &StabilizeWindow::frameProcessed);
-		connect(videoStabilizerThread, &VideoStabilizerThread::processingFinished, stabilizeWindow, &StabilizeWindow::processingFinished);
-
-		stabilizeWindow->setModal(true);
-		stabilizeWindow->show();
-
-		videoStabilizerThread->start();
-	}
-	catch (const std::exception& ex)
-	{
-		qWarning("%s", ex.what());
-
-		stabilizeWindow->close();
-		stabilizeVideoFinished();
-
-		QMessageBox::critical(this, "OrientView - Error", QString("%1.\n\nCheck the application log for details.").arg(ex.what()), QMessageBox::Ok);
-	}
-
-	this->setCursor(Qt::ArrowCursor);
-}
 
 void MainWindow::stabilizeVideoFinished()
 {
@@ -780,37 +638,4 @@ void MainWindow::stabilizeVideoFinished()
 	}
 }
 
-void MainWindow::on_pushButtonVideoStabilizerPassTwoRun_clicked()
-{
-	this->setCursor(Qt::WaitCursor);
 
-	settings->readFromUI(ui);
-
-	QFile fileIn(settings->stabilizer.passTwoInputFilePath);
-	QFile fileOut(settings->stabilizer.passTwoOutputFilePath);
-
-	try
-	{
-		if (!fileIn.open(QFile::ReadOnly | QFile::Text))
-			throw std::runtime_error("Could not open input file");
-
-		if (!fileOut.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
-			throw std::runtime_error("Could not open output file");
-
-		VideoStabilizer::convertCumulativeFramePositionsToNormalized(fileIn, fileOut, settings->stabilizer.smoothingRadius);
-		QMessageBox::information(this, "OrientView - Information", "Second preprocess pass completed successfully.", QMessageBox::Ok);
-	}
-	catch (const std::exception& ex)
-	{
-		qWarning("%s", ex.what());
-		QMessageBox::critical(this, "OrientView - Error", QString("%1.\n\nCheck the application log for details.").arg(ex.what()), QMessageBox::Ok);
-	}
-
-	if (fileIn.isOpen())
-		fileIn.close();
-
-	if (fileOut.isOpen())
-		fileOut.close();
-
-	this->setCursor(Qt::ArrowCursor);
-}

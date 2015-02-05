@@ -5,7 +5,7 @@
 
 #include <QThread>
 
-namespace OrientView
+namespace VideO
 {
 	class MainWindow;
 	class VideoWindow;

@@ -12,7 +12,7 @@
 #include "SplitsManager.h"
 #include "MovingAverage.h"
 
-namespace OrientView
+namespace VideO
 {
 	class QuickRouteReader;
 	class Renderer;
@@ -87,7 +87,7 @@ namespace OrientView
 
 	public:
 
-		bool initialize(QuickRouteReader* quickRouteReader, SplitsManager* splitsManager, Renderer* renderer, Settings* settings);
+		bool initialize(QuickRouteReader* quickRouteReader, Renderer* renderer, Settings* settings);
 		void update(double currentTime, double frameTime);
 
 		void requestFullUpdate();

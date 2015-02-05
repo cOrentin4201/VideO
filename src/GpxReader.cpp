@@ -7,7 +7,7 @@
 
 #include "GpxReader.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 bool GpxReader::initialize(const QString& fileName)
 {

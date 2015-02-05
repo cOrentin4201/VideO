@@ -13,7 +13,7 @@ extern "C"
 #include "libswscale/swscale.h"
 }
 
-namespace OrientView
+namespace VideO
 {
 	class Settings;
 	struct FrameData;

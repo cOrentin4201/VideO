@@ -12,7 +12,7 @@
 
 #include "MovingAverage.h"
 
-namespace OrientView
+namespace VideO
 {
 	class Settings;
 	struct FrameData;

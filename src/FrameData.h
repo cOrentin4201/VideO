@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-namespace OrientView
+namespace VideO
 {
 	// Contains the frame data that is passed around from one stage to another.
 	struct FrameData

@@ -13,7 +13,7 @@ namespace Ui
 	class EncodeWindow;
 }
 
-namespace OrientView
+namespace VideO
 {
 	class VideoDecoder;
 	class VideoEncoderThread;

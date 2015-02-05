@@ -7,7 +7,7 @@
 #include <QPointF>
 #include <QColor>
 
-namespace OrientView
+namespace VideO
 {
 	struct RoutePoint
 	{

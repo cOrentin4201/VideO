@@ -7,7 +7,7 @@
 #include "FrameData.h"
 #include "Mp4File.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 bool VideoEncoder::initialize(VideoDecoder* videoDecoder, Settings* settings)
 {

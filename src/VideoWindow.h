@@ -6,7 +6,7 @@
 #include <QWindow>
 #include <QOpenGLContext>
 
-namespace OrientView
+namespace VideO
 {
 	class Settings;
 

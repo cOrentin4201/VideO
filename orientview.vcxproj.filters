@@ -128,9 +128,6 @@
     <ClCompile Include="src\Mp4File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SimpleLogger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\GpxReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -143,15 +140,6 @@
     <ClCompile Include="src\RouteManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\StabilizeWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="build\GeneratedFiles\Debug\moc_StabilizeWindow.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="build\GeneratedFiles\Release\moc_StabilizeWindow.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="src\VideoStabilizerThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -160,9 +148,6 @@
     </ClCompile>
     <ClCompile Include="build\GeneratedFiles\Release\moc_VideoStabilizerThread.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SplitsManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,21 +184,12 @@
     <CustomBuild Include="src\Renderer.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="src\StabilizeWindow.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\StabilizeWindow.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="src\VideoStabilizerThread.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Settings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SimpleLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\VideoDecoder.h">
@@ -256,12 +232,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\RouteManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="build\GeneratedFiles\ui_StabilizeWindow.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SplitsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

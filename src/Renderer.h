@@ -16,7 +16,7 @@
 #include "MovingAverage.h"
 #include "FrameData.h"
 
-namespace OrientView
+namespace VideO
 {
 	class VideoDecoder;
 	class MapImageReader;

@@ -6,7 +6,7 @@
 #include <QThread>
 #include <QFile>
 
-namespace OrientView
+namespace VideO
 {
 	class VideoDecoder;
 	class VideoStabilizer;

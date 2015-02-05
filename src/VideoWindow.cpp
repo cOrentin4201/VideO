@@ -9,7 +9,7 @@
 #include "VideoWindow.h"
 #include "Settings.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 VideoWindow::VideoWindow(QWindow* parent) : QWindow(parent)
 {
@@ -20,8 +20,8 @@ bool VideoWindow::initialize(Settings* settings)
 	qDebug("Initializing video window");
 
 	setSurfaceType(QWindow::OpenGLSurface);
-	setIcon(QIcon(":/icons/misc/icons/orientview.ico"));
-	setTitle("OrientView - Video");
+	setIcon(QIcon(":/icons/misc/icons/logo.png"));
+	setTitle("VideO");
 	resize(settings->window.width, settings->window.height);
 	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), QApplication::desktop()->availableGeometry()));
 	setWindowState(settings->window.fullscreen ? Qt::WindowFullScreen : Qt::WindowNoState);

@@ -12,7 +12,7 @@
 #include "Settings.h"
 #include "FrameData.h"
 
-using namespace OrientView;
+using namespace VideO;
 
 Panel::Panel() : texture(QOpenGLTexture::Target2D)
 {

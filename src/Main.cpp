@@ -8,16 +8,11 @@
 #include <QFontDatabase>
 
 #include "MainWindow.h"
-#include "SimpleLogger.h"
+
 
 namespace
 {
-	OrientView::SimpleLogger logger;
-
-	void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& message)
-	{
-		logger.handleMessage(type, context, message);
-	}
+	
 }
 
 int main(int argc, char *argv[])
@@ -39,15 +34,12 @@ int main(int argc, char *argv[])
 
 		QDir::setCurrent(QCoreApplication::applicationDirPath());
 
-		logger.initialize("orientview.log");
-		qInstallMessageHandler(messageHandler);
-
+		
 		QFontDatabase::addApplicationFont("data/fonts/dejavu-sans-bold.ttf");
 
-		OrientView::MainWindow mainWindow;
+		VideO::MainWindow mainWindow;
 
-		logger.setMainWindow(&mainWindow);
-
+		
 		if (argc >= 2 && QFile::exists(QString(argv[1])))
 			mainWindow.readSettingsFromIniFile(QString(argv[1]));
 		else

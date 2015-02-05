@@ -17,7 +17,7 @@ namespace Ui
 	class MainWindow;
 }
 
-namespace OrientView
+namespace VideO
 {
 	// Central structure of all the settings of the program.
 	class Settings
@@ -105,13 +105,7 @@ namespace OrientView
 
 		} video;
 
-		struct Splits
-		{
-			SplitTimeType type = SplitTimeType::Absolute;
-			QString splitTimes = "";
-
-		} splits;
-
+		
 		struct Window
 		{
 			int width = 1280;
@@ -133,18 +127,12 @@ namespace OrientView
 		struct Stabilizer
 		{
 			bool enabled = false;
-			VideoStabilizerMode mode = VideoStabilizerMode::RealTime;
-			QString inputDataFilePath = "";
 			double averagingFactor = 0.1;
 			double dampingFactor = 1.0;
 			double maxDisplacementFactor = 0.5;
 			double maxAngle = 15.0;
 			int frameSizeDivisor = 8;
-			QString passOneOutputFilePath = "";
-			QString passTwoInputFilePath = "";
-			QString passTwoOutputFilePath = "";
-			int smoothingRadius = 15;
-
+			
 		} stabilizer;
 
 		struct Encoder
