@@ -19,15 +19,15 @@ int main(int argc, char *argv[])
 {
 	try
 	{
-		QCoreApplication::setOrganizationDomain("orientview.com");
+		QCoreApplication::setOrganizationDomain("video.com");
 		
 #ifdef Q_OS_WIN32
-		QCoreApplication::setOrganizationName("OrientView");
-		QCoreApplication::setApplicationName("OrientView");
+		QCoreApplication::setOrganizationName("VideO");
+		QCoreApplication::setApplicationName("VideO");
 		QCoreApplication::addLibraryPath("data/plugins");
 #else
-		QCoreApplication::setOrganizationName("orientview");
-		QCoreApplication::setApplicationName("orientview");
+		QCoreApplication::setOrganizationName("VideO");
+		QCoreApplication::setApplicationName("VideO");
 #endif
 		
 		QApplication app(argc, argv);

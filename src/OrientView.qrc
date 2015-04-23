@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>../misc/icons/VideO.ico</file>
     <file>../misc/icons/logo.png</file>
     <file>../misc/icons/default.ico</file>
     <file>../misc/icons/orientview.ico</file>

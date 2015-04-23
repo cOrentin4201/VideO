@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>OrientView</string>
+   <string>VideO</string>
   </property>
   <property name="windowIcon">
    <iconset resource="OrientView.qrc">
@@ -2518,8 +2518,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>267</width>
-         <height>200</height>
+         <width>765</width>
+         <height>461</height>
         </rect>
        </property>
        <attribute name="label">

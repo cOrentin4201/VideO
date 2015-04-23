@@ -23,11 +23,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>OrientView - Encoding</string>
+   <string>VideO - Encoding</string>
   </property>
   <property name="windowIcon">
    <iconset resource="OrientView.qrc">
-    <normaloff>:/icons/misc/icons/orientview.ico</normaloff>:/icons/misc/icons/orientview.ico</iconset>
+    <normaloff>:/icons/misc/icons/logo.png</normaloff>:/icons/misc/icons/logo.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

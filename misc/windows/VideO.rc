@@ -1,6 +1,6 @@
 RT_ICON ICON "../icons/VideO.ico"
 
-1 24 "VideO.exe.manifest"
+1 24 "video.exe.manifest"
 
 1 VERSIONINFO
 FILEVERSION     1,1,0,0
@@ -15,7 +15,7 @@ BEGIN
       VALUE "InternalName", "VideO"
       VALUE "ProductVersion", "1.0.0"
       VALUE "FileVersion", "1.0.0"
-      VALUE "CompanyName", "Corentin ROUX"
+      VALUE "CompanyName", "Corentin Roux"
       VALUE "LegalCopyright", "Copyright (C) 2014 Mikko Ronkainen"
       VALUE "OriginalFilename", "VideO.exe"
     END
